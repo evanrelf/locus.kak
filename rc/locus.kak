@@ -2,10 +2,13 @@
 hook global WinDisplay (?<file>.*?):(?<line>\d+)(?::(?<column>\d+))?:? %{
   evaluate-commands %sh{
     file=$kak_hook_param_capture_file
-    line=$kak_hook_param_capture_line
-    column=$kak_hook_param_capture_column
+    anchor_line=$kak_hook_param_capture_line
+    anchor_column=$kak_hook_param_capture_column
+    cursor_line=$anchor_line
+    cursor_column=$anchor_column
     echo "delete-buffer"
-    echo "edit -existing $file $line $column"
+    echo "edit -existing $file $anchor_line $anchor_column"
+    echo "try %{ select -display-column $anchor_line.$anchor_column,$cursor_line.$cursor_column }"
   }
 }
 
