@@ -30,7 +30,7 @@ hook global WinDisplay (?<file>.*?):\((?<anchor_line>\d+),(?<anchor_column>\d+)\
     file=$kak_hook_param_capture_file
     anchor_line=$kak_hook_param_capture_anchor_line
     anchor_column=$kak_hook_param_capture_anchor_column
-    cursor_line=$kak_hook_param_capture_cursor_column
+    cursor_line=$kak_hook_param_capture_cursor_line
     cursor_column=$kak_hook_param_capture_cursor_column
     echo "edit -existing $file $anchor_line $anchor_column"
     echo "try %{ select -display-column $anchor_line.$anchor_column,$cursor_line.$cursor_column }"
