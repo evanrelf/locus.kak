@@ -1,4 +1,4 @@
-# Standard: path/to/file:line[:column][:]
+# Line and optional column: path/to/file:line[:column][:]
 hook global WinDisplay (?<file>.*?):(?<line>\d+)(?::(?<column>\d+))?:? %{
   evaluate-commands %sh{
     file=$kak_hook_param_capture_file
@@ -11,7 +11,21 @@ hook global WinDisplay (?<file>.*?):(?<line>\d+)(?::(?<column>\d+))?:? %{
   }
 }
 
-# GHC line and column range: path/to/file:line[-line]:column-column[:]
+# Line range: path/to/file:line-line[:]
+hook global WinDisplay (?<file>.*?):(?<anchor_line>\d+)-(?<cursor_line>\d+)? %{
+  evaluate-commands %sh{
+    file=$kak_hook_param_capture_file
+    anchor_line=$kak_hook_param_capture_anchor_line
+    anchor_column=1
+    cursor_line=$kak_hook_param_capture_cursor_line
+    cursor_column=1
+    echo "edit -existing $file $anchor_line"
+    echo "execute-keys x"
+    echo "try %{ select -display-column $anchor_line.$anchor_column,$cursor_line.$cursor_column; execute-keys x }"
+  }
+}
+
+# Line and column range: path/to/file:line[-line]:column-column[:]
 hook global WinDisplay (?<file>.*?):(?<anchor_line>\d+)(?:-(?<cursor_line>\d+))?:(?<anchor_column>\d+)-(?<cursor_column>\d+):? %{
   evaluate-commands %sh{
     file=$kak_hook_param_capture_file
@@ -37,7 +51,7 @@ hook global WinDisplay (?<file>.*?):\((?<anchor_line>\d+),(?<anchor_column>\d+)\
   }
 }
 
-# GitHub line range: path/to/file#Lline-Lline
+# GitHub line range: path/to/file#Lline[-Lline]
 hook global WinDisplay (?<file>.*?)#L(?<anchor_line>\d+)(?:-L(?<cursor_line>\d+))? %{
   evaluate-commands %sh{
     file=$kak_hook_param_capture_file
