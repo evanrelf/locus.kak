@@ -1,5 +1,5 @@
 # Line and optional column: path/to/file:line[:column][:]
-hook global WinDisplay (?<file>.*?):(?<line>\d+)(?::(?<column>\d+))?:? %{
+hook global WinDisplay (?<file>[^:]*?):(?<line>\d+)(?::(?<column>\d+))?:?$ %{
   evaluate-commands %sh{
     file=$kak_hook_param_capture_file
     anchor_line=$kak_hook_param_capture_line
@@ -12,7 +12,7 @@ hook global WinDisplay (?<file>.*?):(?<line>\d+)(?::(?<column>\d+))?:? %{
 }
 
 # Line range: path/to/file:line-line[:]
-hook global WinDisplay (?<file>.*?):(?<anchor_line>\d+)-(?<cursor_line>\d+)? %{
+hook global WinDisplay (?<file>[^:]*?):(?<anchor_line>\d+)-(?<cursor_line>\d+)?$ %{
   evaluate-commands %sh{
     file=$kak_hook_param_capture_file
     anchor_line=$kak_hook_param_capture_anchor_line
@@ -26,7 +26,7 @@ hook global WinDisplay (?<file>.*?):(?<anchor_line>\d+)-(?<cursor_line>\d+)? %{
 }
 
 # Line and column range: path/to/file:line[-line]:column-column[:]
-hook global WinDisplay (?<file>.*?):(?<anchor_line>\d+)(?:-(?<cursor_line>\d+))?:(?<anchor_column>\d+)-(?<cursor_column>\d+):? %{
+hook global WinDisplay (?<file>[^:]*?):(?<anchor_line>\d+)(?:-(?<cursor_line>\d+))?:(?<anchor_column>\d+)-(?<cursor_column>\d+):?$ %{
   evaluate-commands %sh{
     file=$kak_hook_param_capture_file
     anchor_line=$kak_hook_param_capture_anchor_line
@@ -39,7 +39,7 @@ hook global WinDisplay (?<file>.*?):(?<anchor_line>\d+)(?:-(?<cursor_line>\d+))?
 }
 
 # GHC point range: path/to/file:(line,column)-(line,column)[:]
-hook global WinDisplay (?<file>.*?):\((?<anchor_line>\d+),(?<anchor_column>\d+)\)-\((?<cursor_line>\d+),(?<cursor_column>\d+)\):? %{
+hook global WinDisplay (?<file>[^:]*?):\((?<anchor_line>\d+),(?<anchor_column>\d+)\)-\((?<cursor_line>\d+),(?<cursor_column>\d+)\):?$ %{
   evaluate-commands %sh{
     file=$kak_hook_param_capture_file
     anchor_line=$kak_hook_param_capture_anchor_line
@@ -52,7 +52,7 @@ hook global WinDisplay (?<file>.*?):\((?<anchor_line>\d+),(?<anchor_column>\d+)\
 }
 
 # GitHub line range: path/to/file#Lline[-Lline]
-hook global WinDisplay (?<file>.*?)#L(?<anchor_line>\d+)(?:-L(?<cursor_line>\d+))? %{
+hook global WinDisplay (?<file>[^:]*?)#L(?<anchor_line>\d+)(?:-L(?<cursor_line>\d+))?$ %{
   evaluate-commands %sh{
     file=$kak_hook_param_capture_file
     anchor_line=$kak_hook_param_capture_anchor_line
