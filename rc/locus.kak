@@ -1,3 +1,5 @@
+provide-module locus %{
+
 # Line and optional column: path/to/file:line[:column][:]
 hook global WinDisplay (?<file>[^:]*?):(?<line>\d+)(?::(?<column>\d+))?:?$ %{
   evaluate-commands %sh{
@@ -63,4 +65,6 @@ hook global WinDisplay (?<file>[^:]*?)#L(?<anchor_line>\d+)(?:-L(?<cursor_line>\
     echo "execute-keys x"
     echo "try %{ select -display-column $anchor_line.$anchor_column,$cursor_line.$cursor_column; execute-keys x }"
   }
+}
+
 }
